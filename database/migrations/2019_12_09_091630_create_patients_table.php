@@ -22,7 +22,7 @@ class CreatePatientsTable extends Migration
             $table->string('doctor');
             $table->string('diagnosis');
             $table->unsignedBigInteger('employee_id');
-            $table->foreign('employee_id')->references('id')->on('users');
+            $table->foreign('employee_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
