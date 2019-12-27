@@ -1,0 +1,53 @@
+.bg-gradient-primary {
+    background-image: url(../img/hospital.png) !important;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    /* background-size: cover;  */
+}
+
+.bg-default {
+    background: #dcdcdc  !important;
+}
+
+.separator {
+    display:none;
+}
+
+.alert-default {
+    border: none !important;
+}
+
+.filter-card {
+    border-bottom-left-radius: 0%;
+    border-bottom-right-radius: 0%;
+}
+
+.select2-selection{
+    border: none !important;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08) !important;
+    height: calc(2.75rem + 2px) !important;
+    padding: .625rem .75rem;
+    font-size: 14px !important;
+    color: rgb(136, 152, 170) !important;
+}
+
+.select2-selection__arrow {
+    height: calc(2.75rem + 2px) !important;
+}
+
+.btn-filter {
+    width: 100%;
+}
+
+.hidden-treasure {
+    color: white;
+}
+
+.navbar-nav .nav-item .active {
+    font-weight: bold;
+}
+
+.filter-dropup {
+    padding: 15px;
+    width: 400px;
+}
