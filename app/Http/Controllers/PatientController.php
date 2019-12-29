@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Patient;
 use App\User;
+use Phpml\Association\Apriori;
+use DB;
 
 class PatientController extends Controller
 {
@@ -16,7 +18,8 @@ class PatientController extends Controller
     public function index()
     {
         //
-        return Patient::all();
+        $patients = Patient::paginate(10);
+        return view('patient.index', ['patients' => $patients]);
     }
 
     /**
@@ -26,7 +29,7 @@ class PatientController extends Controller
      */
     public function create()
     {
-        //
+        return view('patient.create');
     }
 
     /**
@@ -58,7 +61,6 @@ class PatientController extends Controller
      */
     public function show($id)
     {
-        //
         $patient = Patient::where('id', $id)->first();
         return $patient;
     }
@@ -71,10 +73,8 @@ class PatientController extends Controller
      */
     public function edit($id)
     {
-        //
         $patient = Patient::where('id', $id)->first();
-        
-        return $patient;
+        return view('patient.edit', ['patient'=>$patient]);
     }
 
     /**
@@ -111,5 +111,27 @@ class PatientController extends Controller
         $patient = Patient::where('id', $id)->first();
         $patient->delete();
         return $patient;
+    }
+
+    public function calculate_apriori(Request $request) 
+    {
+        $associator = new Apriori($support = 0.03, $confidence = 0.05);
+        $labels = [];
+        $datas = [];
+        // for($i = 0; $i < 12; $i++) 
+        // {
+        //     $data = DB::select('select date_format(date, "%m %Y") as date, diagnosis from patients where month(date) = ?', [$i+1]);
+        //     $data = array_map(function($value) {
+        //         return (array)$value;
+        //     }, $data);
+        //     array_push($datas, $data);
+        // }
+        // $samples = [['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta'], ['alpha', 'beta', 'epsilon'], ['alpha', 'beta', 'theta']];
+        $data = DB::select('select diagnosis from patients');
+        $data = array_map(function($value) {
+            return (array)$value;
+        }, $data);
+        $associator->train($data, $labels);
+        return view('patient.calculate', ['data'=>$associator->apriori()]);
     }
 }

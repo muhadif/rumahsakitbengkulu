@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('home', 'HomeController@index')->name('home');
 	Route::get('data', 'DataController@index')->name('data.index');;
 	Route::get('data/create', 'DataController@create')->name('data.create');
+	Route::post('patients/calculate', 'PatientController@calculate_apriori')->name('calculate_apriori');
 	// Route::get('data', ['as' => 'data.edit', 'uses' => 'DataController@edit']);
 	
 	Route::resource('user', 'UserController', ['except' => ['show']]);
