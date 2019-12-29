@@ -7,6 +7,7 @@ use App\Patient;
 use App\User;
 use Phpml\Association\Apriori;
 use DB;
+use Auth;
 
 class PatientController extends Controller
 {
@@ -48,9 +49,9 @@ class PatientController extends Controller
         $patient->address = $request->address;
         $patient->doctor = $request->doctor;
         $patient->diagnosis = $request->diagnosis;
-        $patient->employee()->attach(User::where('id', $request->employee_id)->first());
+        $patient->employee()->associate(User::where('id', Auth::id())->first());
         $patient->save();
-        return $patient;
+        return redirect('patients');
     }
 
     /**
@@ -94,9 +95,9 @@ class PatientController extends Controller
         $patient->address = $request->address;
         $patient->doctor = $request->doctor;
         $patient->diagnosis = $request->diagnosis;
-        $patient->employee()->attach(User::where('id', $request->employee_id)->first());
+        $patient->employee()->associate(User::where('id', Auth::id())->first());
         $patient->save();
-        return $patient;
+        return redirect('patients');
     }
 
     /**
@@ -110,12 +111,12 @@ class PatientController extends Controller
         //
         $patient = Patient::where('id', $id)->first();
         $patient->delete();
-        return $patient;
+        return redirect('patients');
     }
 
     public function calculate_apriori(Request $request) 
     {
-        $associator = new Apriori($support = 0.03, $confidence = 0.05);
+        $associator = new Apriori($support = $request->support, $confidence = $request->confidence);
         $labels = [];
         $datas = [];
         // for($i = 0; $i < 12; $i++) 
@@ -132,6 +133,10 @@ class PatientController extends Controller
             return (array)$value;
         }, $data);
         $associator->train($data, $labels);
-        return view('patient.calculate', ['data'=>$associator->apriori()]);
+        $result = $associator->apriori();
+        if(count($result)<1) {
+            return view('patient.error.noresult');
+        }
+        return view('patient.calculate', ['data'=>$result]);
     }
 }

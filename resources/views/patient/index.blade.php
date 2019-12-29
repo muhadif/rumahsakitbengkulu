@@ -73,7 +73,7 @@
                                 @foreach ($patients as $key => $value)
                                     <tr>
                                         {{-- <td>{{ $user->name }}</td> --}}
-                                        <td>{{ $key+1 }}</td>
+                                        <td>{{ $patients->firstitem() + $key }}</td>
                                         <td>
                                             {{-- <a href="mailto:{{ $user->email }}">{{ $user->email }}</a> --}}
                                             {{ $value->id }}
@@ -95,8 +95,8 @@
                                             {{ $value->address }}
                                         </td>
                                         <td class="text-right">
-                                            <a class="btn text-white bg-teal btn-sm" href="#" role="button">Edit</a>
-                                            <a class="btn btn-danger btn-sm" href="#" role="button">Hapus</a>
+                                            <a class="btn text-white bg-teal btn-sm" href="{{ route('patients.edit', ['patient'=>$value->id]) }}" role="button">Edit</a>
+                                            <a class="btn btn-danger btn-sm" href="{{ route('patients.destroy', ['patient'=>$value->id]) }}" role="button">Hapus</a>
                                         </td>
                                     </tr>
                                 @endforeach

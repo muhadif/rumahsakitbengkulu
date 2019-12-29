@@ -60,19 +60,19 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">{{ __('No') }}</th>
+                                    <th scope="col">{{ __('Kode') }}</th>
+                                    <th scope="col">{{ __('Tanggal') }}</th>
+                                    <th scope="col">{{ __('Nama Pasien') }}</th>
                                     <th scope="col">{{ __('Diagnosa') }}</th>
+                                    <th scope="col">{{ __('Kategori') }}</th>
+                                    <th scope="col">{{ __('Alamat') }}</th>
+                                    <th scope="col">{{ __('Aksi') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data[1] as $key => $value)
-                                    <tr>
-                                        {{-- <td>{{ $user->name }}</td> --}}
-                                        <td>{{ $key+1 }}</td>
-                                        <td>
-                                            {{ $value[0] }}
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                <tr>
+                                    <td colspan="8">No result</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

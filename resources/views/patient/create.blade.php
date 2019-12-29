@@ -13,19 +13,19 @@
                                 <h3 class="mb-0">{{ __('Data Penyakit') }}</h3>
                             </div>
                             <div class="col-4 text-right">
-                                <a href="{{ route('data.index') }}" class="btn btn-sm btn-primary">{{ __('Kembali') }}</a>
+                                <a href="{{ route('patients.index') }}" class="btn btn-sm btn-primary">{{ __('Kembali') }}</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        {{-- <form method="post" action="{{ route('user.store') }}" autocomplete="off"> --}}
+                        <form method="post" action="{{ route('patients.store') }}" autocomplete="off">
                             @csrf
                             
                             <h6 class="heading-small text-muted mb-4">{{ __('Informasi Penyakit') }}</h6>
                             <div class="pl-lg-4">
                                 <div class="form-group">
-                                    <label class="form-control-label" >{{ __('Kode') }}</label>
-                                    <input type="text" class="form-control form-control-alternative" placeholder="{{ __('Kode') }}"  required autofocus>
+                                    <label class="form-control-label" >{{ __('Nama Pasien') }}</label>
+                                    <input type="text" name="name" class="form-control form-control-alternative" placeholder="{{ __('Nama Pasien') }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label" >{{ __('Tanggal') }}</label>
@@ -33,51 +33,35 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                         </div>
-                                        <input class="form-control datepicker" placeholder="Select date" type="text" >
+                                        <input class="form-control" name="date" placeholder="Select date" type="date" >
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-control-label" >{{ __('Nama Pasien') }}</label>
-                                    <input type="text" class="form-control form-control-alternative" placeholder="{{ __('Nama Pasien') }}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-control-label" >{{ __('Diagnosa') }}</label>
-                                        <form>
-                                            <select id="diagnose" class="form-control input-group-alternative" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
-                                                <option>Alerts</option>
-                                                <option>Badges</option>
-                                                <option>Buttons</option>
-                                                <option>Cards</option>
-                                                <option>Forms</option>
-                                                <option>Modals</option>
-                                            </select>
-                                        </form>
-                                </div>
-                                <div class="form-group">
                                     <label class="form-control-label" >{{ __('Kategori') }}</label>
-                                    <form>
-                                        <select id="category" class="form-control input-group-alternative" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
-                                            <option>Alerts</option>
-                                            <option>Badges</option>
-                                            <option>Buttons</option>
-                                            <option>Cards</option>
-                                            <option>Forms</option>
-                                            <option>Modals</option>
-                                        </select>
-                                    </form>
+                                    <select name="category" id="category" class="form-control input-group-alternative" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                        <option>Penyakit Dalam</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label" >{{ __('Alamat') }}</label>
-                                      <textarea class="form-control form-control-alternative"  rows="3"></textarea>
+                                      <textarea name="address" class="form-control form-control-alternative"  rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label" >{{ __('Doctor') }}</label>
+                                    <input type="text" name="doctor" class="form-control form-control-alternative" placeholder="{{ __('Doctor') }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label" >{{ __('Diagnosa') }}</label>
+                                    <input type="text" name="diagnosis" class="form-control form-control-alternative" placeholder="{{ __('Diagnosa') }}" required>
                                 </div>
 
                                 <div class="text-right">
-                                    <button type="button" class="btn btn-danger">{{ __('Reset') }}</button>
+                                    <button type="reset" class="btn btn-danger">{{ __('Reset') }}</button>
 
                                     <button type="submit" class="btn btn-success">{{ __('Simpan') }}</button>
                                 </div>
                             </div>
-                        {{-- </form> --}}
+                        </form>
                     </div>
                 </div>
             </div>
