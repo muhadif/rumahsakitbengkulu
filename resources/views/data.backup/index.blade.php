@@ -18,20 +18,19 @@
                                     <div class="filter-dropup dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                         <h5 class="card-title text-uppercase text-light text-muted mb-0">filter / perhitungan</h5>
                                         <br>
-                                            <form action="{{ route('calculate_apriori') }}" method="post">
-                                                @csrf
+                                            <form action="" method="post">
                                                 <div class="form-group">
                                                   <label for="">Min Support</label>
                                                   <input type="text"
-                                                    class="form-control form-control-alternative" name="support" id=""  placeholder="Min Support">
+                                                    class="form-control form-control-alternative" name="" id=""  placeholder="Min Support">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="">Min Confident</label>
                                                     <input type="text"
-                                                      class="form-control form-control-alternative" name="confidence" id=""  placeholder="Min Confident">
+                                                      class="form-control form-control-alternative" name="" id=""  placeholder="Min Confident">
                                                 </div>
                                                 <div class="text-right">
-                                                    <input type="submit" name="submit" id="" class="btn btn-primary btn-sm" href="#" role="button" value="Proses"/>
+                                                    <a name="" id="" class="btn btn-primary btn-sm" href="#" role="button">Proses</a>
                                                 </div>
 
                                             </form>   
@@ -39,7 +38,7 @@
                                 </div>
                                 
                                 <a href="" class="btn btn-sm btn-success">{{ __('Cetak') }}</a>
-                                <a href="{{ route('patients.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Data Penyakit') }}</a>
+                                <a href="{{ route('data.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Data Penyakit') }}</a>
                             </div>
                         </div>
                     </div>
@@ -70,42 +69,45 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($patients as $key => $value)
+                                {{-- @foreach ($users as $user) --}}
                                     <tr>
                                         {{-- <td>{{ $user->name }}</td> --}}
-                                        <td>{{ $patients->firstitem() + $key }}</td>
+                                        @php
+                                         $i=0;   
+                                        @endphp
+                                        <td>{{++$i}}</td>
                                         <td>
                                             {{-- <a href="mailto:{{ $user->email }}">{{ $user->email }}</a> --}}
-                                            {{ $value->id }}
+                                            X-1293
                                         </td>
                                         <td>
                                             {{-- {{ $user->created_at->format('d/m/Y H:i') }} --}}
-                                            {{ $value->date }}
+                                            20/12/2019
                                         </td>
                                         <td>
-                                            {{ $value->name }}
+                                            Bambang Jeger
                                         </td>
                                         <td>
-                                            {{ $value->diagnosis }}
+                                            Demam Berdarah
                                         </td>
                                         <td>
-                                            {{ $value->category }}
+                                            Penyakit Dalam
                                         </td>
                                         <td>
-                                            {{ $value->address }}
+                                            Jalan Karangmalang No 2 ,Caturtunggal ,Depok ,Sleman
                                         </td>
                                         <td class="text-right">
-                                            <a class="btn text-white bg-teal btn-sm" href="{{ route('patients.edit', ['patient'=>$value->id]) }}" role="button">Edit</a>
-                                            <a class="btn btn-danger btn-sm" href="{{ route('patients.destroy', ['patient'=>$value->id]) }}" role="button">Hapus</a>
+                                            <a class="btn text-white bg-teal btn-sm" href="#" role="button">Edit</a>
+                                            <a class="btn btn-danger btn-sm" href="#" role="button">Hapus</a>
                                         </td>
                                     </tr>
-                                @endforeach
+                                {{-- @endforeach --}}
                             </tbody>
                         </table>
                     </div>
                     <div class="card-footer py-4">
                         <nav class="d-flex justify-content-end" aria-label="...">
-                            {{ $patients->links() }}
+                            {{-- {{ $users->links() }} --}}
                         </nav>
                     </div>
                 </div>

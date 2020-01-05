@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" action="{{ route('data.update', $datum) }}" autocomplete="off">
+                        <form method="post" action="{{ route('data.update', $data) }}" autocomplete="off">
                             @csrf
                             @method('put')
 
@@ -26,22 +26,10 @@
                             
                             <div class="pl-lg-4">
 
-                                {{-- Kode --}}
-                                <div class="form-group">
-                                    <label class="form-control-label" >{{ __('Nama Pasien') }}</label>
-                                    <input type="text" class="form-control form-control-alternative" placeholder="{{ __('Kode') }}" value="{{ old('id', $datum->id) }}" disabled>
-                                    
-                                    @if ($errors->has('id'))
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $errors->first('id') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-
                                 {{-- Name --}}
                                 <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-name">{{ __('Name') }}</label>
-                                    <input type="text" name="name" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Name') }}" value="{{ old('name', $datum->name) }}" required autofocus>
+                                    <input type="text" name="name" id="input-name" class="form-control form-control-alternative{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Name') }}" value="{{ old('name', $data->name) }}" required autofocus>
 
                                     @if ($errors->has('name'))
                                         <span class="invalid-feedback" role="alert">
@@ -57,7 +45,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                         </div>
-                                        <input class="form-control" name="date" placeholder="Select date" type="date"  value="{{ old('date', $datum->date) }}" required>
+                                        <input class="form-control" name="date" placeholder="Select date" type="date"  value="{{ old('date', $data->date) }}" required>
                                     </div>
                                     @if ($errors->has('date'))
                                         <span class="invalid-feedback" role="alert">
@@ -69,10 +57,8 @@
                                 {{-- Kategori --}}
                                 <div class="form-group">
                                     <label class="form-control-label" >{{ __('Kategori') }}</label>
-                                    <select name="category" id="category" class="form-control input-group-alternative{{ $errors->has('category') ? ' is-invalid' : '' }}" required  datum-toggle="select" title="Simple select" datum-live-search="true" datum-live-search-placeholder="Search ...">
-                                        @foreach ($categories as $key => $value)
-                                            <option value="{{ $value->id }}" {{ old('category', $datum->category->id) == $value->id ? "selected" : "" }}>{{ $value->name }}</option>
-                                        @endforeach
+                                    <select name="category" id="category" class="form-control input-group-alternative{{ $errors->has('category') ? ' is-invalid' : '' }}" value="{{ old('category', $data->category) }}" required  data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                        <option>Penyakit Dalam</option>
                                     </select>
 
                                     @if ($errors->has('category'))
@@ -85,7 +71,7 @@
                                 {{-- Alamat --}}
                                 <div class="form-group">
                                     <label class="form-control-label" >{{ __('Alamat') }}</label>
-                                    <textarea name="address" class="form-control form-control-alternative{{ $errors->has('address') ? ' is-invalid' : '' }}"  rows="3">{{ old('address', $datum->address) }}</textarea>
+                                    <textarea name="address" class="form-control form-control-alternative{{ $errors->has('address') ? ' is-invalid' : '' }}"  rows="3"></textarea>
                                     
                                     @if ($errors->has('address'))
                                         <span class="invalid-feedback" role="alert">
@@ -97,12 +83,8 @@
                                 {{-- Doctor --}}
                                 <div class="form-group">
                                     <label class="form-control-label" >{{ __('Doctor') }}</label>
-                                    <select name="doctor" id="doctor" class="form-control input-group-alternative{{ $errors->has('doctor') ? ' is-invalid' : '' }}" placeholder="{{ __('Doctor') }}" value="{{ old('doctor', $datum->doctor) }}" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
-                                        @foreach ($doctors as $key => $value)
-                                            <option value="{{ $value->id }}" {{ old('doctor', $datum->doctor->id) == $value->id ? "selected" : "" }}>{{ $value->nama }}</option>
-                                        @endforeach
-                                    </select>
-
+                                    <input type="text" name="doctor" class="form-control form-control-alternative{{ $errors->has('doctor') ? ' is-invalid' : '' }}" placeholder="{{ __('Doctor') }}" required>
+                                    
                                     @if ($errors->has('doctor'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('doctor') }}</strong>
@@ -113,7 +95,7 @@
                                 {{-- Diagnosis --}}
                                 <div class="form-group{{ $errors->has('diagnosis') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-diagnosis">{{ __('Diagnosis') }}</label>
-                                    <input type="diagnosis" name="diagnosis" id="input-diagnosis" class="form-control form-control-alternative{{ $errors->has('diagnosis') ? ' is-invalid' : '' }}" placeholder="{{ __('Diagnosis') }}" value="{{ old('diagnosis', $datum->diagnosis) }}" required>
+                                    <input type="diagnosis" name="diagnosis" id="input-diagnosis" class="form-control form-control-alternative{{ $errors->has('diagnosis') ? ' is-invalid' : '' }}" placeholder="{{ __('Diagnosis') }}" value="{{ old('diagnosis', $data->diagnosis) }}" required>
 
                                     @if ($errors->has('diagnosis'))
                                         <span class="invalid-feedback" role="alert">
@@ -123,7 +105,7 @@
                                 </div>
 
                                 <div class="text-center">
-                                    <button type="reset" class="btn btn-danger mt-4">{{ __('Reset') }}</button>
+                                    <button type="reset" class="btn btn-danger">{{ __('Reset') }}</button>
 
                                     <button type="submit" class="btn btn-success mt-4">{{ __('Save') }}</button>
                                 </div>

@@ -39,7 +39,7 @@
                                 </div>
                                 
                                 <a href="" class="btn btn-sm btn-success">{{ __('Cetak') }}</a>
-                                <a href="{{ route('patients.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Data Penyakit') }}</a>
+                                <a href="{{ route('data.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Data Penyakit') }}</a>
                             </div>
                         </div>
                     </div>

@@ -86,7 +86,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id='dataNav' href="{{ route('patients.index') }}">
+                    <a class="nav-link" id='dataNav' href="{{ route('data.index') }}">
                         <i  class="ni ni-collection text-orange"></i> {{ __('Data') }}
                     </a>
                 </li>

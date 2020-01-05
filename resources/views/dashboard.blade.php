@@ -12,38 +12,36 @@
                             <div class="col">
                                 <h5 class="card-title text-uppercase text-muted mb-0">Filter</h5>
                                 <br>
-                                <div class="row">
-                                    <div class="col-lg-5">
-                                        <label for="">Tanggal</label>
-                                        <div class="form-group">
-                                            <div class="input-group input-group-alternative">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+
+                                {{-- Form grafik --}}
+                                <form action="{{ route('home') }}" method="POST">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <label for="">Tanggal</label>
+                                            <div class="form-group">
+                                                <div class="input-group input-group-alternative">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                                    </div>
+                                                    <input name="date" class="form-control" placeholder="Select date" type="date" >
                                                 </div>
-                                                <input class="form-control datepicker" placeholder="Select date" type="text" >
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <label for="">Diagnosa</label>
-                                        <form>
-                                            <select id="diagnose" class="form-control input-group-alternative" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
-                                                <option>Alerts</option>
-                                                <option>Badges</option>
-                                                <option>Buttons</option>
-                                                <option>Cards</option>
-                                                <option>Forms</option>
-                                                <option>Modals</option>
+                                        <div class="col-lg-5">
+                                            <label for="">Diagnosa</label>
+                                            <select name="diagnosis" id="diagnose" class="form-control input-group-alternative" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                                @foreach ($diagnoses as $value)
+                                                    <option value="{{ $value->diagnosis }}">{{ $value->diagnosis }}</option>
+                                                @endforeach
                                             </select>
-                                        </form>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <label class="hidden-treasure" for="">x</label>
+                                            <input type="submit" class="btn-filter btn btn-primary" value="Filter"/>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-2">
-                                        <label class="hidden-treasure" for="">x</label>
-                                        <a name="" id="" class="btn-filter btn btn-primary" href="#" role="button">Filter</a>
-                                    </div>
-                                </div>
-                                
-                                                                                           
+                                </form>                                                 
                             </div>
                         </div>
                     </div>

@@ -10,35 +10,44 @@
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h3 class="mb-0">{{ __('Data Penyakit') }}</h3>
+                                @if ($action=="print")
+                                    <h3 class="mb-0">{{ __('Cetak Data Penyakit') }}</h3>
+                                @else
+                                    <h3 class="mb-0">{{ __('Data Penyakit') }}</h3>
+                                @endif
                             </div>
                             <div class="col-4 text-right">
-                                <div class="dropdown">
-                                    <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="" class="btn btn-sm bg-yellow text-white">{{ __('Filter / Perhitungan') }}</a>
-                                    <div class="filter-dropup dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                        <h5 class="card-title text-uppercase text-light text-muted mb-0">filter / perhitungan</h5>
-                                        <br>
-                                            <form action="" method="post">
-                                                <div class="form-group">
-                                                  <label for="">Min Support</label>
-                                                  <input type="text"
-                                                    class="form-control form-control-alternative" name="" id=""  placeholder="Min Support">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="">Min Confident</label>
+                                @if ($action=="print")
+                                    <a href="#" onclick="printDiv('print_table')" class="btn btn-lg btn-success"><i class="fa fa-print"></i> {{ __('Cetak') }}</a>
+                                @else
+                                    <div class="dropdown">
+                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="" class="btn btn-sm bg-yellow text-white">{{ __('Filter / Perhitungan') }}</a>
+                                        <div class="filter-dropup dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <h5 class="card-title text-uppercase text-light text-muted mb-0">filter / perhitungan</h5>
+                                            <br>
+                                                <form action="{{ route('calculate_apriori') }}" method="post">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                    <label for="">Min Support</label>
                                                     <input type="text"
-                                                      class="form-control form-control-alternative" name="" id=""  placeholder="Min Confident">
-                                                </div>
-                                                <div class="text-right">
-                                                    <a name="" id="" class="btn btn-primary btn-sm" href="#" role="button">Proses</a>
-                                                </div>
+                                                        class="form-control form-control-alternative" name="support" id=""  placeholder="Min Support">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="">Min Confident</label>
+                                                        <input type="text"
+                                                        class="form-control form-control-alternative" name="confidence" id=""  placeholder="Min Confident">
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <input type="submit" name="submit" id="" class="btn btn-primary btn-sm" href="#" role="button" value="Proses"/>
+                                                    </div>
 
-                                            </form>   
+                                                </form>   
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                <a href="" class="btn btn-sm btn-success">{{ __('Cetak') }}</a>
-                                <a href="{{ route('data.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Data Penyakit') }}</a>
+                                    
+                                    <a href="{{ route('data.index').'?action=print' }}" class="btn btn-sm btn-success">{{ __('Cetak') }}</a>
+                                    <a href="{{ route('data.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Data Penyakit') }}</a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -54,7 +63,7 @@
                         @endif
                     </div>
 
-                    <div class="table-responsive">
+                    <div class="table-responsive" id="print_table">
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                                 <tr>
@@ -65,49 +74,54 @@
                                     <th scope="col">{{ __('Diagnosa') }}</th>
                                     <th scope="col">{{ __('Kategori') }}</th>
                                     <th scope="col">{{ __('Alamat') }}</th>
-                                    <th scope="col">{{ __('Aksi') }}</th>
+                                    @if (!$action=="print")
+                                        <th scope="col">{{ __('Aksi') }}</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($users as $user) --}}
+                                @foreach ($data as $key => $value)
                                     <tr>
                                         {{-- <td>{{ $user->name }}</td> --}}
-                                        @php
-                                         $i=0;   
-                                        @endphp
-                                        <td>{{++$i}}</td>
+                                        <td>{{ $action!="print" ? $data->firstitem() + $key : $key+1 }}</td>
                                         <td>
                                             {{-- <a href="mailto:{{ $user->email }}">{{ $user->email }}</a> --}}
-                                            X-1293
+                                            {{ $value->id }}
                                         </td>
                                         <td>
                                             {{-- {{ $user->created_at->format('d/m/Y H:i') }} --}}
-                                            20/12/2019
+                                            {{ $value->date }}
                                         </td>
                                         <td>
-                                            Bambang Jeger
+                                            {{ $value->name }}
                                         </td>
                                         <td>
-                                            Demam Berdarah
+                                            {{ $value->diagnosis }}
                                         </td>
                                         <td>
-                                            Penyakit Dalam
+                                            {{ $value->category->name }}
                                         </td>
                                         <td>
-                                            Jalan Karangmalang No 2 ,Caturtunggal ,Depok ,Sleman
+                                            {{ $value->address }}
                                         </td>
-                                        <td class="text-right">
-                                            <a class="btn text-white bg-teal btn-sm" href="#" role="button">Edit</a>
-                                            <a class="btn btn-danger btn-sm" href="#" role="button">Hapus</a>
-                                        </td>
+                                        @if (!$action=="print")
+                                            <td class="text-right">
+                                                <form action="{{ route('data.destroy', ['data'=>$value->id]) }}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <a class="btn text-white bg-teal btn-sm" href="{{ route('data.edit', ['data'=>$value->id]) }}" role="button">Edit</a>
+                                                    <input type="submit" class="btn btn-danger btn-sm" value="Hapus"/>
+                                                </form>
+                                            </td>
+                                        @endif
                                     </tr>
-                                {{-- @endforeach --}}
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                     <div class="card-footer py-4">
                         <nav class="d-flex justify-content-end" aria-label="...">
-                            {{-- {{ $users->links() }} --}}
+                            {{ $action!="print" ? $data->links() : '' }}
                         </nav>
                     </div>
                 </div>

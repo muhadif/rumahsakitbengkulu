@@ -39,7 +39,7 @@
                                 </div>
                                 
                                 <a href="" class="btn btn-sm btn-success">{{ __('Cetak') }}</a>
-                                <a href="{{ route('patients.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Data Penyakit') }}</a>
+                                <a href="{{ route('data.create') }}" class="btn btn-sm btn-primary">{{ __('Tambah Data Penyakit') }}</a>
                             </div>
                         </div>
                     </div>
@@ -60,19 +60,19 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">{{ __('No') }}</th>
-                                    <th scope="col">{{ __('Kode') }}</th>
-                                    <th scope="col">{{ __('Tanggal') }}</th>
-                                    <th scope="col">{{ __('Nama Pasien') }}</th>
                                     <th scope="col">{{ __('Diagnosa') }}</th>
-                                    <th scope="col">{{ __('Kategori') }}</th>
-                                    <th scope="col">{{ __('Alamat') }}</th>
-                                    <th scope="col">{{ __('Aksi') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="8">No result</td>
-                                </tr>
+                                @foreach ($data[1] as $key => $value)
+                                    <tr>
+                                        {{-- <td>{{ $user->name }}</td> --}}
+                                        <td>{{ $key+1 }}</td>
+                                        <td>
+                                            {{ $value[0] }}
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

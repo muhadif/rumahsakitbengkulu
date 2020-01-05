@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use DB;
+
 class HomeController extends Controller
 {
     /**
@@ -19,8 +22,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('dashboard');
+        $diagnoses = DB::select('select distinct diagnosis from data');
+        $patient_count = count(DB::select('select name as count from data group by name'));
+        return view('dashboard', ['diagnoses'=>$diagnoses, 'patient_count'=>$patient_count, 'diagnosis_count'=>count($diagnoses)]);
     }
 }
