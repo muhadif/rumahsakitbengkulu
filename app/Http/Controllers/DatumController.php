@@ -127,7 +127,7 @@ class DatumController extends Controller
         return redirect('admin/data');
     }
 
-    public function calculate_apriori(Request $request) 
+    public function calculateApriori(Request $request) 
     {
         Auth::user()->authorize('admin');
         $associator = new Apriori($support = $request->support, $confidence = $request->confidence);
@@ -143,5 +143,31 @@ class DatumController extends Controller
             return view('data.error.noresult');
         }
         return view('data.calculate', ['data'=>$result]);
+    }
+
+    public function getDataCounts(Request $request) {
+        $date = $request->input('date', 'NOW()');
+        if(isset($request->diagnosis) && $request->diagnosis != "all") {
+            $result = DB::select("SELECT MONTH(DATE) AS month, COUNT(*) AS total FROM data WHERE diagnosis = ? AND DATE BETWEEN DATE_SUB('".$date."',INTERVAL 1 YEAR) AND '".$date."' GROUP BY MONTH(DATE)", [$request->diagnosis]);
+        }
+        else {
+            if($date!='NOW()') {
+                $date = "'".$date."'";
+            }
+            $result = DB::select("SELECT MONTH(DATE) AS month, COUNT(*) AS total FROM data WHERE DATE BETWEEN DATE_SUB(".$date.",INTERVAL 1 YEAR) AND ".$date." GROUP BY MONTH(DATE)");
+        }
+        $convertedResult = [];
+        foreach($result as $key => $value) {
+            $convertedResult[$value->month] = $value->total;
+        }
+        $dataCounts = [];
+        for($i = 0; $i < 12; $i++) {
+            if(array_key_exists($i+1, $convertedResult)) {
+                $dataCounts[$i] = $convertedResult[$i+1];
+            } else {
+                $dataCounts[$i] = 0;
+            }
+        }
+        return response()->json($dataCounts);
     }
 }

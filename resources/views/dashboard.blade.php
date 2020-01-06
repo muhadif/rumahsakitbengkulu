@@ -24,13 +24,14 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                                     </div>
-                                                    <input name="date" class="form-control" placeholder="Select date" type="date" >
+                                                    <input id="chart-date" name="date" class="form-control" placeholder="Select date" type="date" value="2020-01-06" >
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-5">
                                             <label for="">Diagnosa</label>
-                                            <select name="diagnosis" id="diagnose" class="form-control input-group-alternative" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                            <select name="diagnosis" id="chart-diagnosis" class="form-control input-group-alternative" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                                <option value="all" selected>All</option>
                                                 @foreach ($diagnoses as $value)
                                                     <option value="{{ $value->diagnosis }}">{{ $value->diagnosis }}</option>
                                                 @endforeach
@@ -38,7 +39,7 @@
                                         </div>
                                         <div class="col-lg-2">
                                             <label class="hidden-treasure" for="">x</label>
-                                            <input type="submit" class="btn-filter btn btn-primary" value="Filter"/>
+                                            <input id="chart-filter-button" type="submit" class="btn-filter btn btn-primary" value="Filter"/>
                                         </div>
                                     </div>
                                 </form>                                                 
@@ -57,7 +58,7 @@
                             </div>
                             <div class="col">
                                 <ul class="nav nav-pills justify-content-end">
-                                    <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-disease" data-update='{"data":{"datasets":[{"data":[0, 20, 10, 30, 15, 40, 20, 60, 60]}]}}'  >
+                                    <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-disease" data-update='{"data":{"datasets":[{"data":{{ $chart_data }}}]}}'  >
                                         <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
                                             <span class="d-none d-md-block">Bulan</span>
                                             <span class="d-md-none">M</span>
@@ -81,6 +82,7 @@
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
 
@@ -93,5 +95,8 @@
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.extension.js"></script>
     <script>
         $('#homeNav').addClass('active');
+        $(document).ready(function() {
+            $('#chart-date').val(new Date().toDateInputValue());
+        })
     </script>
 @endpush

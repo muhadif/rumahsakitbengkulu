@@ -58,7 +58,7 @@
         <!-- Select2 Init -->
         <script>
             $(document).ready(function() {
-                $('#diagnose').select2();
+                $('#chart-diagnosis').select2();
                 $('#category').select2();
                 $('#doctor').select2();
             });

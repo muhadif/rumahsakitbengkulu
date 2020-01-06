@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
 	Route::group(['prefix'=>'admin'], function() {
 		Route::resource('data', 'DatumController');
-		Route::post('datas/calculate', 'DatumController@calculate_apriori')->name('calculate_apriori');
+		Route::post('datas/calculate', 'DatumController@calculateApriori')->name('calculate_apriori');
 	});
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);

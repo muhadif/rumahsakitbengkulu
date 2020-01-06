@@ -1067,13 +1067,18 @@ var SalesChart = (function() {
 	// Variables
 
 	var $chart = $('#chart-disease');
+	var chartDate = $('#chart-date');
+	var chartDiagnosis = $('#chart-diagnosis');
+	var chartFilterButton = $('#chart-filter-button');
 
-
+	
 	// Methods
 
 	function init($chart) {
 
-		var salesChart = new Chart($chart, {
+		
+		
+		var diagnosisChart = new Chart($chart, {
 			type: 'line',
 			options: {
 				scales: {
@@ -1112,14 +1117,39 @@ var SalesChart = (function() {
 				labels: ['Jan','Feb','Mar','Apr','May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 				datasets: [{
 					label: 'Data Pasien',
-					data: [0,40,35,10, 20, 10, 30, 15, 40, 20, 60, 10]
+					data: []
 				}]
 			}
 		});
 
 		// Save to jQuery object
 
-		$chart.data('chart', salesChart);
+		$chart.data('chart', diagnosisChart);
+
+		$.ajax({
+			method: "POST",
+			url: "http://localhost:8000/api/data/get/counts",
+			dataType: 'json',
+			data: { date: chartDate.val(), diagnosis: chartDiagnosis.val() },
+			success: function( response ) {
+				diagnosisChart.data.datasets[0].data = response;
+				diagnosisChart.update();
+			}
+		});
+
+		chartFilterButton.click(e => {
+			$.ajax({
+				method: "POST",
+				url: "http://localhost:8000/api/data/get/counts",
+				dataType: 'json',
+				data: { date: chartDate.val(), diagnosis: chartDiagnosis.val() },
+				success: function( response ) {
+					diagnosisChart.data.datasets[0].data = response;
+					diagnosisChart.update();
+				}
+			});
+			e.preventDefault();
+		})
 
 	};
 
