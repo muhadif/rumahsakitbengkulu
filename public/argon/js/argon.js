@@ -1125,10 +1125,11 @@ var SalesChart = (function() {
 		// Save to jQuery object
 
 		$chart.data('chart', diagnosisChart);
+		var base_url = window.location.origin;
 
 		$.ajax({
 			method: "POST",
-			url: "http://localhost:8000/api/data/get/counts",
+			url: base_url+"/api/data/get/counts",
 			dataType: 'json',
 			data: { date: chartDate.val(), diagnosis: chartDiagnosis.val() },
 			success: function( response ) {
@@ -1140,7 +1141,7 @@ var SalesChart = (function() {
 		chartFilterButton.click(e => {
 			$.ajax({
 				method: "POST",
-				url: "http://localhost:8000/api/data/get/counts",
+				url: base_url+"/api/data/get/counts",
 				dataType: 'json',
 				data: { date: chartDate.val(), diagnosis: chartDiagnosis.val() },
 				success: function( response ) {

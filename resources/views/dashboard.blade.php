@@ -57,20 +57,6 @@
                                 <h2 class="text-white mb-0">Data Jumlah Penyakit</h2>
                             </div>
                             <div class="col">
-                                <ul class="nav nav-pills justify-content-end">
-                                    <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-disease" data-update='{"data":{"datasets":[{"data":{{ $chart_data }}}]}}'  >
-                                        <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
-                                            <span class="d-none d-md-block">Bulan</span>
-                                            <span class="d-md-none">M</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item" data-toggle="chart" data-target="#chart-disease" data-update='{"data":{"datasets":[{"data":[0, 20, 5, 25, 10, 30, 15, 40, 40]}]}}'  >
-                                        <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
-                                            <span class="d-none d-md-block">Tahun</span>
-                                            <span class="d-md-none">Y</span>
-                                        </a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
