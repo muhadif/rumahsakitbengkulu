@@ -61,6 +61,10 @@
                 $('#chart-diagnosis').select2();
                 $('#category').select2();
                 $('#doctor').select2();
+                $('#chart-address').select2();
+                $('#address').select2({
+                    width: '100%'
+                });
             });
 
             function printDiv(divName) {

@@ -1069,6 +1069,7 @@ var SalesChart = (function() {
 	var $chart = $('#chart-disease');
 	var chartDate = $('#chart-date');
 	var chartDiagnosis = $('#chart-diagnosis');
+	var chartAddress = $('#chart-address')
 	var chartFilterButton = $('#chart-filter-button');
 
 	
@@ -1131,7 +1132,7 @@ var SalesChart = (function() {
 			method: "POST",
 			url: base_url+"/api/data/get/counts",
 			dataType: 'json',
-			data: { date: chartDate.val(), diagnosis: chartDiagnosis.val() },
+			data: { date: chartDate.val(), diagnosis: chartDiagnosis.val(), address: chartAddress.val() },
 			success: function( response ) {
 				diagnosisChart.data.datasets[0].data = response;
 				diagnosisChart.update();
@@ -1143,7 +1144,7 @@ var SalesChart = (function() {
 				method: "POST",
 				url: base_url+"/api/data/get/counts",
 				dataType: 'json',
-				data: { date: chartDate.val(), diagnosis: chartDiagnosis.val() },
+				data: { date: chartDate.val(), diagnosis: chartDiagnosis.val(), address: chartAddress.val() },
 				success: function( response ) {
 					diagnosisChart.data.datasets[0].data = response;
 					diagnosisChart.update();

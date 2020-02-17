@@ -17,7 +17,7 @@
                                 <form action="{{ route('home') }}" method="POST">
                                     @csrf
                                     <div class="row">
-                                        <div class="col-lg-5">
+                                        <div class="col-lg-3">
                                             <label for="">Tanggal</label>
                                             <div class="form-group">
                                                 <div class="input-group input-group-alternative">
@@ -28,7 +28,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-5">
+                                        <div class="col-lg-3">
                                             <label for="">Diagnosa</label>
                                             <select name="diagnosis" id="chart-diagnosis" class="form-control input-group-alternative" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
                                                 <option value="all" selected>All</option>
@@ -37,7 +37,16 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-lg-2">
+                                        <div class="col-lg-3">
+                                            <label for="">Alamat</label>
+                                            <select name="address" id="chart-address" class="form-control input-group-alternative" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                                <option value="all" selected>All</option>
+                                                @foreach ($addresses as $value)
+                                                    <option value="{{ $value->address }}">{{ $value->address }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-3">
                                             <label class="hidden-treasure" for="">x</label>
                                             <input id="chart-filter-button" type="submit" class="btn-filter btn btn-primary" value="Filter"/>
                                         </div>

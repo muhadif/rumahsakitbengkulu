@@ -29,10 +29,23 @@ Route::group(['middleware' => 'auth'], function () {
 	// Route::get('data', ['as' => 'data.edit', 'uses' => 'DataController@edit']);
 	
 	Route::resource('user', 'UserController', ['except' => ['show']]);
+
+	// Admin routes
 	Route::group(['prefix'=>'admin'], function() {
+
+		Route::group(['prefix'=>'data'], function() {
+
+			// Special data routes
+			Route::get('search', 'DatumController@search')->name('search');
+			Route::post('calculate', 'DatumController@calculateApriori')->name('calculate_apriori');
+		});
+
+		// Data resources
 		Route::resource('data', 'DatumController');
-		Route::post('datas/calculate', 'DatumController@calculateApriori')->name('calculate_apriori');
+
 	});
+
+	// Profile routes
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);

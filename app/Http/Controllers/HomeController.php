@@ -25,15 +25,24 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $diagnoses = DB::select('select distinct diagnosis from data where diagnosis <> "-"');
+        $addresses = DB::select('select distinct address from data');
         $patient_count = count(DB::select('select name as count from data group by name'));
         
         $date = $request->input('date', 'NOW()');
-        if(isset($request->diagnosis)) {
-            $result = DB::select("SELECT MONTH(DATE) AS month, COUNT(*) AS total FROM data WHERE diagnosis = ? AND DATE BETWEEN DATE_SUB('".$date."',INTERVAL 1 YEAR) AND '".$date."' GROUP BY MONTH(DATE)", [$request->diagnosis]);
+        
+        $query = DB::table('data')
+            ->select(DB::raw('MONTH(DATE) AS month, COUNT(*) AS total'))
+            ->whereBetween('date', [DB::raw("DATE_SUB('".$date."',INTERVAL 1 YEAR)"), $date])
+            ->groupBy(DB::raw('MONTH(DATE)'));
+        
+        if(isset($request->address) && $request->address != 'all') {
+            $query = $query->where('address', '=', $request->address);
         }
-        else {
-            $result = DB::select("SELECT MONTH(DATE) AS month, COUNT(*) AS total FROM data WHERE DATE BETWEEN DATE_SUB(".$date.",INTERVAL 1 YEAR) AND ".$date." GROUP BY MONTH(DATE)");
+        if(isset($request->diagnosis) && $request->diagnosis != 'all') {
+            $query = $query->where('diagnosis', '=', $request->diagnosis);
         }
+        $result = $query->get(['month', 'total']);
+        
         $convertedResult = [];
         foreach($result as $key => $value) {
             $convertedResult[$value->month] = $value->total;
@@ -48,6 +57,6 @@ class HomeController extends Controller
         }
         $chart_data = "[".implode(",", $dataCounts)."]";
 
-        return view('dashboard', ['diagnoses'=>$diagnoses, 'patient_count'=>$patient_count, 'diagnosis_count'=>count($diagnoses), 'chart_data' => $chart_data]);
+        return view('dashboard', ['diagnoses'=>$diagnoses, 'addresses' => $addresses, 'patient_count'=>$patient_count, 'diagnosis_count'=>count($diagnoses), 'chart_data' => $chart_data]);
     }
 }

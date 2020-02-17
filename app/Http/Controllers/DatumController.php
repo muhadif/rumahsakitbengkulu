@@ -22,10 +22,11 @@ class DatumController extends Controller
     {
         Auth::user()->authorize('admin');
         $data = Datum::paginate(10);
+        $addresses = DB::select('select distinct address from data');
         if($request->action=='print') {
             $data = Datum::all();
         }
-        return view('data.index', ['data' => $data, 'action'=>$request->action]);
+        return view('data.index', ['data' => $data, 'addresses'=>$addresses, 'action'=>$request->action]);
     }
 
     /**
@@ -147,15 +148,19 @@ class DatumController extends Controller
 
     public function getDataCounts(Request $request) {
         $date = $request->input('date', 'NOW()');
-        if(isset($request->diagnosis) && $request->diagnosis != "all") {
-            $result = DB::select("SELECT MONTH(DATE) AS month, COUNT(*) AS total FROM data WHERE diagnosis = ? AND DATE BETWEEN DATE_SUB('".$date."',INTERVAL 1 YEAR) AND '".$date."' GROUP BY MONTH(DATE)", [$request->diagnosis]);
+        
+        $query = DB::table('data')
+            ->select(DB::raw('MONTH(DATE) AS month, COUNT(*) AS total'))
+            ->whereBetween('date', [DB::raw("DATE_SUB('".$date."',INTERVAL 1 YEAR)"), $date])
+            ->groupBy(DB::raw('MONTH(DATE)'));
+        
+        if(isset($request->address) && $request->address != 'all') {
+            $query = $query->where('address', '=', $request->address);
         }
-        else {
-            if($date!='NOW()') {
-                $date = "'".$date."'";
-            }
-            $result = DB::select("SELECT MONTH(DATE) AS month, COUNT(*) AS total FROM data WHERE DATE BETWEEN DATE_SUB(".$date.",INTERVAL 1 YEAR) AND ".$date." GROUP BY MONTH(DATE)");
+        if(isset($request->diagnosis) && $request->diagnosis != 'all') {
+            $query = $query->where('diagnosis', '=', $request->diagnosis);
         }
+        $result = $query->get(['month', 'total']);
         $convertedResult = [];
         foreach($result as $key => $value) {
             $convertedResult[$value->month] = $value->total;
@@ -169,5 +174,19 @@ class DatumController extends Controller
             }
         }
         return response()->json($dataCounts);
+    }
+
+    public function search(Request $request) {
+        $result = Datum::where([
+            ['name', 'LIKE', '%'.$request->input('name', '').'%'],
+            ['address', 'LIKE', '%'.($request->input('address','')=='all'?'':$request->input('address','')).'%']
+        ])->paginate(10);
+        Auth::user()->authorize('admin');
+        $addresses = DB::select('select distinct address from data');
+        if($request->action=='print') {
+            $data = Datum::all();
+        }
+        $query_string = ['name' => $request->input('name', ''), 'address' => $request->input('address', '')];
+        return view('data.index', ['data' => $result, 'query_string' => $query_string, 'addresses'=>$addresses, 'action'=>$request->action]);
     }
 }

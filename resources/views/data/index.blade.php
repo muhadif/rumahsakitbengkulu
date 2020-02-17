@@ -9,21 +9,21 @@
                 <div class="card shadow">
                     <div class="card-header border-0">
                         <div class="row align-items-center">
-                            <div class="col-8">
+                            <div class="col-6">
                                 @if ($action=="print")
                                     <h3 class="mb-0">{{ __('Cetak Data Penyakit') }}</h3>
                                 @else
                                     <h3 class="mb-0">{{ __('Data Penyakit') }}</h3>
                                 @endif
                             </div>
-                            <div class="col-4 text-right">
+                            <div class="col-6 text-right">
                                 @if ($action=="print")
                                     <a href="#" onclick="printDiv('print_table')" class="btn btn-lg btn-success"><i class="fa fa-print"></i> {{ __('Cetak') }}</a>
                                 @else
                                     <div class="dropdown">
-                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="" class="btn btn-sm bg-yellow text-white">{{ __('Filter / Perhitungan') }}</a>
+                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="" class="btn btn-sm bg-yellow text-white">{{ __('Perhitungan') }}</a>
                                         <div class="filter-dropup dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                            <h5 class="card-title text-uppercase text-light text-muted mb-0">filter / perhitungan</h5>
+                                            <h5 class="card-title text-uppercase text-light text-muted mb-0">perhitungan</h5>
                                             <br>
                                                 <form action="{{ route('calculate_apriori') }}" method="post">
                                                     @csrf
@@ -39,6 +39,33 @@
                                                     </div>
                                                     <div class="text-right">
                                                         <input type="submit" name="submit" id="" class="btn btn-primary btn-sm" href="#" role="button" value="Proses"/>
+                                                    </div>
+
+                                                </form>   
+                                        </div>
+                                    </div>
+                                    <div class="dropdown">
+                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="" class="btn btn-sm bg-yellow text-white">{{ __('Filter') }}</a>
+                                        <div class="filter-dropup dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                            <h5 class="card-title text-uppercase text-light text-muted mb-0">Filter</h5>
+                                            <br>
+                                                <form action="{{ route('search') }}">
+                                                    <div class="form-group">
+                                                        <label for="">Nama</label>
+                                                        <input type="text"
+                                                            class="form-control form-control-alternative" name="name" id=""  placeholder="Nama">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="">Alamat</label>
+                                                        <select name="address" id="address" class="form-control input-group-alternative w-100" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                                            <option value="all" selected>All</option>
+                                                            @foreach ($addresses as $value)
+                                                                <option value="{{ $value->address }}">{{ $value->address }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <input type="submit" name="submit" id="" class="btn btn-primary btn-sm" href="#" role="button" value="Submit"/>
                                                     </div>
 
                                                 </form>   
@@ -121,7 +148,7 @@
                     </div>
                     <div class="card-footer py-4">
                         <nav class="d-flex justify-content-end" aria-label="...">
-                            {{ $action!="print" ? $data->links() : '' }}
+                            {{ $action!="print" ? $data->appends(isset($query_string) ? $query_string : null)->links() : '' }}
                         </nav>
                     </div>
                 </div>
